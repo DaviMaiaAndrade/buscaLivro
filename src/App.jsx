@@ -7,14 +7,14 @@ import Titulo from './titulo.png'
 import Link from './url.png'      
 
 
+
 function App(){  
 
     const [digitado,setDigitado] = useState('');
     const [complet,setComplet]= useState([]);
     
     const Url= ()=>{      
-        var url = "https://hn.algolia.com/api/v1/search?query="+digitado;
-        
+        var url = "https://hn.algolia.com/api/v1/search?query="+digitado;        
         fetch(url).then((res)=>{
             return res.json();             
         }).then((complet)=>{
@@ -22,15 +22,25 @@ function App(){
             console.log(complet.hits);
         });       
     };     
-     
+    const Verifica = item =>{
+        if (item === null){
+            item="Não informado"
+            return item
+        }else{
+            return item
+        }        
+    }
     const Value = complet.map((item,key)=>{
+        
         return<div className="caixa" key={key}>
-                           
-           <span> <img className="icon" src={Author} alt="Imagem"/> {item.author}</span> <br/>
-           <span> <img className="icon" src={Titulo} alt="Imagem"/>  {item.title}</span> <br/>
-           <span> <img className="icon" src={Link} alt="Imagem"/> {item.url}</span>
+                                       
+           <span> <img className="icon" src={Author} alt="Imagem"/> {Verifica(item.author)}</span> <br/>
+           <span> <img className="icon" src={Titulo} alt="Imagem"/> {Verifica(item.title)}</span> <br/>
+           <span> <img className="icon" src={Link} alt="Imagem"/> {Verifica(item.url)}</span>
           
         </div>
+        
+       
     })
 
     return(
@@ -41,9 +51,9 @@ function App(){
                 <button type="submit" onClick={Url}><img src={Pesquisar} alt="Imagem"/></button>      
             </div>                
            
-            <div>{Value.map(function(item,key){
+            <div>{Value.map(function(item,key){ 
                 return <div className="caixa" key ={key}>
-                         {item}                                          
+                           {item}                                                                                          
                        </div>;
                 })}                
             </div>
